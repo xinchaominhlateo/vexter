@@ -75,7 +75,26 @@ if ($soMonChoDiem > 0) {
 $sql_hk = "SELECT XepLoai FROM hanhkiem WHERE MaHS = '$mahs' ORDER BY MaHK DESC LIMIT 1";
 $result_hk = $conn->query($sql_hk);
 $hanh_kiem = ($result_hk && $result_hk->num_rows > 0) ? $result_hk->fetch_assoc()['XepLoai'] : "Chưa đánh giá";
-
+// 4. TÍNH XẾP LOẠI CHUNG (Kết hợp Học lực và Hạnh kiểm)
+$xep_loai_chung = "Chưa đánh giá";
+if ($hoc_luc != "Chưa có điểm" && $hanh_kiem != "Chưa đánh giá") {
+    // Điều kiện đạt loại TỐT
+    if ($hoc_luc == "Tốt" && $hanh_kiem == "Tốt") {
+        $xep_loai_chung = "Tốt";
+    } 
+    // Điều kiện đạt loại KHÁ
+    elseif (($hoc_luc == "Tốt" || $hoc_luc == "Khá") && ($hanh_kiem == "Tốt" || $hanh_kiem == "Khá")) {
+        $xep_loai_chung = "Khá";
+    } 
+    // Điều kiện đạt loại ĐẠT (Trung bình)
+    elseif (($hoc_luc == "Tốt" || $hoc_luc == "Khá" || $hoc_luc == "Đạt") && ($hanh_kiem == "Tốt" || $hanh_kiem == "Khá" || $hanh_kiem == "Trung bình")) {
+        $xep_loai_chung = "Đạt";
+    } 
+    // Còn lại là CHƯA ĐẠT (Yếu)
+    else {
+        $xep_loai_chung = "Chưa Đạt";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -170,13 +189,15 @@ $hanh_kiem = ($result_hk && $result_hk->num_rows > 0) ? $result_hk->fetch_assoc(
             ?>
         </table>
 
-        <div class="summary-box">
+<div class="summary-box">
             <h3>II. KẾT QUẢ TỔNG HỢP</h3>
             <p>- Điểm trung bình các môn: <strong><?php echo $dtb_tat_ca; ?></strong></p>
             <p>- Xếp loại Học Lực: <strong style="color: blue; font-size: 18px;"><?php echo $hoc_luc; ?></strong></p>
             <p>- Xếp loại Hạnh Kiểm: <strong style="color: blue; font-size: 18px;"><?php echo $hanh_kiem; ?></strong></p>
+            
+            <hr style="border-top: 1px dashed #000;">
+            <p style="font-size: 18px;">=> KẾT QUẢ XẾP LOẠI CHUNG: <strong style="color: red; font-size: 22px; text-transform: uppercase;"><?php echo $xep_loai_chung; ?></strong></p>
         </div>
-
         <div class="signature">
             <div>
                 <strong>CHỮ KÝ PHỤ HUYNH</strong><br>

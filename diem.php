@@ -47,7 +47,7 @@ $sql_insert = "INSERT INTO diem (MaDiem, MaHS, MaMon, HocKy, DiemKTTX, DiemGiuaK
 $sql_hs = "SELECT MaHS, HoTen FROM hocsinh";
 $result_hs = $conn->query($sql_hs);
 
-$sql_mon = "SELECT MaMon, TenMon FROM monhoc";
+$sql_mon = "SELECT MaMon, TenMon, Khoi FROM monhoc ORDER BY Khoi ASC, TenMon ASC";
 $result_mon = $conn->query($sql_mon);
 ?>
 
@@ -90,22 +90,32 @@ $result_mon = $conn->query($sql_mon);
                 </select>
             </div>
 
-            <div class="form-group">
+<div class="form-group">
                 <label>Môn học:</label>
                 <select name="MaMon" required>
                     <option value="">-- Chọn môn học --</option>
                     <?php
-                    if ($result_mon->num_rows > 0) {
+                    if ($result_mon && $result_mon->num_rows > 0) {
+                        $current_khoi = "";
                         while($row_mon = $result_mon->fetch_assoc()) {
+                            // Tạo tên Khối để gom nhóm
+                            $khoi = $row_mon['Khoi'] ? "Khối " . $row_mon['Khoi'] : "Khối Chung";
+                            
+                            // Nếu chuyển sang khối mới thì tạo nhóm optgroup mới
+                            if ($khoi != $current_khoi) {
+                                if ($current_khoi != "") echo "</optgroup>";
+                                echo "<optgroup label='$khoi'>";
+                                $current_khoi = $khoi;
+                            }
                             echo "<option value='".$row_mon['MaMon']."'>".$row_mon['TenMon']."</option>";
                         }
+                        if ($current_khoi != "") echo "</optgroup>";
                     } else {
                         echo "<option value=''>Chưa có môn học (Hãy thêm trong CSDL)</option>";
                     }
                     ?>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Học kỳ:</label>
                 <select name="HocKy" required>
