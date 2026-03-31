@@ -32,9 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $madiem = ($row_max['MaxMaDiem'] != null) ? $row_max['MaxMaDiem'] + 1 : 1;
 
     // Lệnh Insert vào bảng diem
-    $sql_insert = "INSERT INTO diem (MaDiem, MaHS, MaMon, HocKy, Diem15Phut, Diem1Tiet, DiemThi, DiemTB) 
-                   VALUES ($madiem, $mahs, $mamon, $hocky, $diemkttx, $diemgiuaky, $diemcuoiky, $diemtb)";
-    
+   $ketquanhanxet = empty($_POST['KetQuaNhanXet']) ? "NULL" : "'" . $_POST['KetQuaNhanXet'] . "'";
+
+$sql_insert = "INSERT INTO diem (MaDiem, MaHS, MaMon, HocKy, DiemKTTX, DiemGiuaKy, DiemCuoiKy, DiemTB, KetQuaNhanXet) 
+               VALUES ($madiem, $mahs, $mamon, $hocky, $diemkttx, $diemgiuaky, $diemcuoiky, $diemtb, $ketquanhanxet)";
     if ($conn->query($sql_insert) === TRUE) {
         $thongbao = "<span style='color:green; font-weight:bold;'>Lưu điểm thành công! Điểm trung bình là: $diemtb</span>";
     } else {
@@ -127,6 +128,14 @@ $result_mon = $conn->query($sql_mon);
                 <label>Điểm cuối kỳ:</label>
                 <input type="number" step="0.1" min="0" max="10" name="DiemCuoiKy" style="width: 100px; flex: none;" required>
             </div>
+            <div class="form-group">
+    <label>Nhận xét (Nếu có):</label>
+    <select name="KetQuaNhanXet">
+        <option value="">-- Dành cho môn nhận xét --</option>
+        <option value="Đạt">Đạt</option>
+        <option value="Chưa Đạt">Chưa Đạt</option>
+    </select>
+</div>
 
             <div class="form-group" style="margin-top: 20px;">
                 <input type="checkbox" checked disabled style="width: auto; flex: none; margin-right: 10px;">

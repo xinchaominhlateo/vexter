@@ -20,11 +20,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['Email'];
     $malop = empty($_POST['MaLop']) ? "NULL" : $_POST['MaLop']; // Nếu không chọn lớp thì để NULL
 
-    // Lệnh thêm vào CSDL
-    $sql_insert = "INSERT INTO hocsinh (MaHS, HoTen, NgaySinh, GioiTinh, DiaChi, DienThoai, Email, MaLop) 
-                   VALUES ('$mahs', '$hoten', '$ngaysinh', '$gioitinh', '$diachi', '$dienthoai', '$email', $malop)";
+    // Lệnh thêm vào CSDL bảng hocsinh (Đã bỏ MaLop)
+    $sql_insert_hs = "INSERT INTO hocsinh (MaHS, HoTen, NgaySinh, GioiTinh, DiaChi, DienThoai, Email) 
+                   VALUES ('$mahs', '$hoten', '$ngaysinh', '$gioitinh', '$diachi', '$dienthoai', '$email')";
     
-    if ($conn->query($sql_insert) === TRUE) {
+    if ($conn->query($sql_insert_hs) === TRUE) {
+        // Nếu chọn lớp, thêm tiếp vào bảng quatrinhhoc
+        if ($malop != "NULL") {
+            // Tạm định sẵn HocKy 1 và Năm Học hiện tại, em có thể làm form nhập thêm sau
+            $sql_insert_qt = "INSERT INTO quatrinhhoc (MaHS, MaLop, HocKy, NamHoc) VALUES ('$mahs', $malop, 1, '2025-2026')";
+            $conn->query($sql_insert_qt);
+        }
+        
         // Thêm thành công thì quay về trang danh sách
         header("Location: hocsinh.php");
         exit();
@@ -94,7 +101,7 @@ $result_lop = $conn->query($sql_lop);
                 <select name="MaLop">
                     <option value="">-- Chọn lớp --</option>
                     <?php
-                    if ($result_lop->num_rows > 0) {
+                    if ($result_lop && $result_lop->num_rows > 0) {
                         while($row_lop = $result_lop->fetch_assoc()) {
                             echo "<option value='".$row_lop['MaLop']."'>".$row_lop['TenLop']."</option>";
                         }

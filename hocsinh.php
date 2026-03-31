@@ -12,15 +12,24 @@ if (!isset($_SESSION['TenDangNhap'])) {
 $search = "";
 if (isset($_GET['search'])) {
     $search = $_GET['search'];
-    // Kết hợp bảng hocsinh và lop để lấy được Tên Lớp thay vì chỉ hiện Mã Lớp
-    $sql = "SELECT hocsinh.*, lop.TenLop FROM hocsinh 
-            LEFT JOIN lop ON hocsinh.MaLop = lop.MaLop 
-            WHERE hocsinh.HoTen LIKE '%$search%' OR hocsinh.MaHS LIKE '%$search%'";
+    // Cập nhật SQL: Kết nối từ hocsinh -> quatrinhhoc -> lop
+    $sql = "SELECT hocsinh.*, lop.TenLop 
+            FROM hocsinh 
+            LEFT JOIN quatrinhhoc ON hocsinh.MaHS = quatrinhhoc.MaHS 
+            LEFT JOIN lop ON quatrinhhoc.MaLop = lop.MaLop 
+            WHERE hocsinh.HoTen LIKE '%$search%' OR hocsinh.MaHS LIKE '%$search%'
+            GROUP BY hocsinh.MaHS"; 
 } else {
-    $sql = "SELECT hocsinh.*, lop.TenLop FROM hocsinh 
-            LEFT JOIN lop ON hocsinh.MaLop = lop.MaLop";
+    $sql = "SELECT hocsinh.*, lop.TenLop 
+            FROM hocsinh 
+            LEFT JOIN quatrinhhoc ON hocsinh.MaHS = quatrinhhoc.MaHS 
+            LEFT JOIN lop ON quatrinhhoc.MaLop = lop.MaLop
+            GROUP BY hocsinh.MaHS";
 }
+
+// THỰC THI CÂU LỆNH SQL (Dòng em bị thiếu)
 $result = $conn->query($sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +57,7 @@ $result = $conn->query($sql);
         </form>
     </div>
 
-    <table>
+<table>
         <tr>
             <th>Mã HS</th>
             <th>Họ Tên</th>
@@ -59,7 +68,7 @@ $result = $conn->query($sql);
             <th>Hành động</th>
         </tr>
         <?php
-        if ($result->num_rows > 0) {
+        if ($result && $result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
                 echo "<tr>";
                 echo "<td>" . $row['MaHS'] . "</td>";
@@ -68,13 +77,21 @@ $result = $conn->query($sql);
                 echo "<td>" . $row['GioiTinh'] . "</td>";
                 echo "<td>" . $row['DiaChi'] . "</td>";
                 echo "<td>" . ($row['TenLop'] ? $row['TenLop'] : 'Chưa xếp lớp') . "</td>";
-                echo "<td><a href='#'>Sửa</a> | <a href='#' style='color:red;'>Xóa</a></td>";
+                
+                // ĐÂY LÀ CHỖ CHÈN NÚT IN PHIẾU VÀO CÙNG VỚI SỬA/XÓA
+                echo "<td>
+                        <a href='phieulienlac.php?MaHS=" . $row['MaHS'] . "' target='_blank' style='color:green; font-weight:bold;'>🖨️ In Phiếu</a> | 
+                        <a href='#'>Sửa</a> | 
+                        <a href='#' style='color:red;'>Xóa</a>
+                      </td>";
+                
                 echo "</tr>";
             }
         } else {
             echo "<tr><td colspan='7' style='text-align:center;'>Chưa có dữ liệu học sinh.</td></tr>";
         }
         ?>
+    </table>
     </table>
 </body>
 </html>
