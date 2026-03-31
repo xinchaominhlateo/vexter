@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['Email'];
     $malop = empty($_POST['MaLop']) ? "NULL" : $_POST['MaLop']; // Nếu không chọn lớp thì để NULL
 
-    // Lệnh thêm vào CSDL bảng hocsinh (Đã bỏ MaLop)
+    // Lệnh thêm vào CSDL bảng hocsinh 
     $sql_insert_hs = "INSERT INTO hocsinh (MaHS, HoTen, NgaySinh, GioiTinh, DiaChi, DienThoai, Email) 
                    VALUES ('$mahs', '$hoten', '$ngaysinh', '$gioitinh', '$diachi', '$dienthoai', '$email')";
     

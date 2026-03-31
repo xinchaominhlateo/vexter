@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Lấy danh sách Giáo viên kết hợp Tên môn học [cite: 43-51, 93-99]
+// Lấy danh sách Giáo viên kết hợp Tên môn học 
 $sql_gv = "SELECT giaovien.MaGV, giaovien.HoTen, giaovien.DienThoai, monhoc.TenMon 
            FROM giaovien 
            LEFT JOIN monhoc ON giaovien.MaMon = monhoc.MaMon";

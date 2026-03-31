@@ -12,7 +12,7 @@ if (!isset($_SESSION['TenDangNhap'])) {
 $search = "";
 if (isset($_GET['search'])) {
     $search = $_GET['search'];
-    // Cập nhật SQL: Kết nối từ hocsinh -> quatrinhhoc -> lop
+
     $sql = "SELECT hocsinh.*, lop.TenLop 
             FROM hocsinh 
             LEFT JOIN quatrinhhoc ON hocsinh.MaHS = quatrinhhoc.MaHS 
@@ -27,7 +27,7 @@ if (isset($_GET['search'])) {
             GROUP BY hocsinh.MaHS";
 }
 
-// THỰC THI CÂU LỆNH SQL (Dòng em bị thiếu)
+// THỰC THI CÂU LỆNH SQL 
 $result = $conn->query($sql);
 
 ?>
@@ -78,7 +78,7 @@ $result = $conn->query($sql);
                 echo "<td>" . $row['DiaChi'] . "</td>";
                 echo "<td>" . ($row['TenLop'] ? $row['TenLop'] : 'Chưa xếp lớp') . "</td>";
                 
-                // ĐÂY LÀ CHỖ CHÈN NÚT IN PHIẾU VÀO CÙNG VỚI SỬA/XÓA
+               
                 echo "<td>
                         <a href='phieulienlac.php?MaHS=" . $row['MaHS'] . "' target='_blank' style='color:green; font-weight:bold;'>🖨️ In Phiếu</a> | 
                         <a href='#'>Sửa</a> | 

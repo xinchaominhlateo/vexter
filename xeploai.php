@@ -2,7 +2,7 @@
 // Gọi kết nối Database
 require_once 'connect.php';
 
-// Giả sử ta lấy thử mã học sinh đang có trong bảng HocSinh của em để test
+
 $mahs = 4901009; 
 
 // 1. Truy vấn lấy toàn bộ điểm và thông tin môn học của HS này
@@ -34,7 +34,7 @@ $dtb_tat_ca = ($soMonChoDiem > 0) ? round($tongDiem / $soMonChoDiem, 1) : 0;
 // 4. Khởi tạo các biến để kiểm tra điều kiện
 $diem_toan = 0; $diem_van = 0; $diem_anh = 0;
 $diem_thap_nhat = 10;
-$check_nhan_xet = true; // Mặc định là Đạt hết
+$check_nhan_xet = true; 
 
 // 5. Chạy vòng lặp phân tích điểm từng môn
 foreach ($danhSachDiem as $mon) {
@@ -56,7 +56,7 @@ foreach ($danhSachDiem as $mon) {
 }
 
 // 6. THUẬT TOÁN XẾP LOẠI HỌC LỰC MỚI (TỐT, KHÁ, ĐẠT)
-$hoc_luc = "Chưa Đạt"; // Đặt mức thấp nhất làm mặc định
+$hoc_luc = "Chưa Đạt"; 
 
 if ($dtb_tat_ca >= 8.0 && ($diem_toan >= 8.0 || $diem_van >= 8.0 || $diem_anh >= 8.0) && $diem_thap_nhat >= 6.5 && $check_nhan_xet == true) {
     $hoc_luc = "Tốt";
@@ -68,7 +68,7 @@ elseif ($dtb_tat_ca >= 5.0 && ($diem_toan >= 5.0 || $diem_van >= 5.0 || $diem_an
     $hoc_luc = "Đạt";
 }
 
-// 7. In kết quả ra màn hình để test
+// 7. In kết quả ra 
 echo "<h2>KẾT QUẢ XẾP LOẠI CỦA HỌC SINH MÃ: $mahs</h2>";
 echo "<p>- Điểm trung bình tất cả các môn: <strong>$dtb_tat_ca</strong></p>";
 echo "<p>- Điểm số thấp nhất trong các môn: <strong>$diem_thap_nhat</strong></p>";

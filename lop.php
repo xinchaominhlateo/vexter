@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Lấy danh sách Lớp [cite: 291]
+// Lấy danh sách Lớp 
 $sql_lop = "SELECT * FROM lop";
 $result_lop = $conn->query($sql_lop);
 ?>

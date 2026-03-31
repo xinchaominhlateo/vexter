@@ -11,7 +11,7 @@ if (!isset($_GET['MaHS'])) {
 
 $mahs = $_GET['MaHS'];
 
-// 1. LẤY THÔNG TIN HỌC SINH VÀ LỚP (Câu lệnh "bất tử" chống lỗi database)
+//  LẤY THÔNG TIN HỌC SINH VÀ LỚP 
 $sql_hs = "SELECT hs.*, 
             (SELECT l.TenLop FROM quatrinhhoc qt JOIN lop l ON qt.MaLop = l.MaLop WHERE qt.MaHS = hs.MaHS LIMIT 1) AS TenLop
            FROM hocsinh hs 
@@ -23,7 +23,7 @@ if (!$info_hs) {
     die("<h3 style='color:red; text-align:center; margin-top:50px;'>Không tìm thấy dữ liệu của học sinh này trong hệ thống!</h3>");
 }
 
-// 2. LẤY ĐIỂM SỐ CÁC MÔN
+// LẤY ĐIỂM SỐ CÁC MÔN
 $sql_diem = "SELECT d.*, m.TenMon, m.HinhThucDanhGia 
              FROM diem d 
              JOIN monhoc m ON d.MaMon = m.MaMon 
@@ -75,7 +75,7 @@ if ($soMonChoDiem > 0) {
 $sql_hk = "SELECT XepLoai FROM hanhkiem WHERE MaHS = '$mahs' ORDER BY MaHK DESC LIMIT 1";
 $result_hk = $conn->query($sql_hk);
 $hanh_kiem = ($result_hk && $result_hk->num_rows > 0) ? $result_hk->fetch_assoc()['XepLoai'] : "Chưa đánh giá";
-// 4. TÍNH XẾP LOẠI CHUNG (Kết hợp Học lực và Hạnh kiểm)
+// 4. TÍNH XẾP LOẠI CHUNG 
 $xep_loai_chung = "Chưa đánh giá";
 if ($hoc_luc != "Chưa có điểm" && $hanh_kiem != "Chưa đánh giá") {
     // Điều kiện đạt loại TỐT

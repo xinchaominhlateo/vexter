@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['TenDangNhap'])) {
-    header("Location: login.php"); // Chưa đăng nhập thì đuổi về trang login
+    header("Location: login.php"); 
     exit();
 }
 ?>

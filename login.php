@@ -8,14 +8,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['TenDangNhap'];
     $password = $_POST['MatKhau'];
 
-    // Truy vấn kiểm tra tài khoản [cite: 104-109]
+    // Truy vấn kiểm tra tài khoản 
     $sql = "SELECT * FROM taikhoan WHERE TenDangNhap = '$username' AND MatKhau = '$password'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $_SESSION['TenDangNhap'] = $row['TenDangNhap'];
-        $_SESSION['VaiTro'] = $row['VaiTro']; // Lưu vai trò để phân quyền sau này [cite: 108]
+        $_SESSION['VaiTro'] = $row['VaiTro']; // Lưu vai trò để phân quyền sau này 
         
         header("Location: index.php"); // Chuyển hướng về trang chủ
         exit();
