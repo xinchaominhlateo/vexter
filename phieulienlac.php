@@ -172,14 +172,14 @@ if ($hoc_luc != "Chưa có điểm" && $hanh_kiem != "Chưa đánh giá") {
                     echo "<td>" . $stt++ . "</td>";
                     echo "<td class='text-left'>" . $mon['TenMon'] . "</td>";
                     echo "<td>" . ($mon['HinhThucDanhGia'] == 'ChoDiem' ? 'Cho điểm' : 'Nhận xét') . "</td>";
-                    echo "<td>" . $mon['DiemKTTX'] . "</td>";
-                    echo "<td>" . $mon['DiemGiuaKy'] . "</td>";
-                    echo "<td>" . $mon['DiemCuoiKy'] . "</td>";
+                    echo "<td>" . ($mon['DiemKTTX'] ?? '') . "</td>";
+                    echo "<td>" . ($mon['DiemGiuaKy'] ?? ''). "</td>";
+                    echo "<td>" . ($mon['DiemCuoiKy'] ?? ''). "</td>";
                     
                     if ($mon['HinhThucDanhGia'] == 'ChoDiem') {
-                        echo "<td><strong>" . $mon['DiemTB'] . "</strong></td>";
+                        echo "<td><strong>" . ($mon['DiemTB'] ?? '') . "</strong></td>";
                     } else {
-                        echo "<td><strong>" . $mon['KetQuaNhanXet'] . "</strong></td>";
+                        echo "<td><strong>" . ($mon['KetQuaNhanXet'] ?? ''). "</strong></td>";
                     }
                     echo "</tr>";
                 }
