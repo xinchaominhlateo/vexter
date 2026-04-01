@@ -27,16 +27,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $diemtb = round($diemtb, 1); // Làm tròn 1 chữ số thập phân
 
     // Khắc phục lỗi thiếu Auto_Increment của MaDiem trong CSDL
-    $result_max = $conn->query("SELECT MAX(MaDiem) AS MaxMaDiem FROM diem");
-    $row_max = $result_max->fetch_assoc();
+$ketquanhanxet = empty($_POST['KetQuaNhanXet']) ? "NULL" : "'" . $_POST['KetQuaNhanXet'] . "'";    $row_max = $result_max->fetch_assoc();
     $madiem = ($row_max['MaxMaDiem'] != null) ? $row_max['MaxMaDiem'] + 1 : 1;
 
     // Lệnh Insert vào bảng diem
    $ketquanhanxet = empty($_POST['KetQuaNhanXet']) ? "NULL" : "'" . $_POST['KetQuaNhanXet'] . "'";
 
-$sql_insert = "INSERT INTO diem (MaDiem, MaHS, MaMon, HocKy, DiemKTTX, DiemGiuaKy, DiemCuoiKy, DiemTB, KetQuaNhanXet) 
-               VALUES ($madiem, $mahs, $mamon, $hocky, $diemkttx, $diemgiuaky, $diemcuoiky, $diemtb, $ketquanhanxet)";
-    if ($conn->query($sql_insert) === TRUE) {
+$sql_insert = "INSERT INTO diem (MaHS, MaMon, HocKy, DiemKTTX, DiemGiuaKy, DiemCuoiKy, DiemTB, KetQuaNhanXet) 
+                   VALUES ($mahs, $mamon, $hocky, $diemkttx, $diemgiuaky, $diemcuoiky, $diemtb, $ketquanhanxet)";    if ($conn->query($sql_insert) === TRUE) {
         $thongbao = "<span style='color:green; font-weight:bold;'>Lưu điểm thành công! Điểm trung bình là: $diemtb</span>";
     } else {
         $thongbao = "<span style='color:red;'>Lỗi khi lưu: " . $conn->error . "</span>";

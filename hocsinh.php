@@ -79,13 +79,11 @@ $result = $conn->query($sql);
                 echo "<td>" . ($row['TenLop'] ? $row['TenLop'] : 'Chưa xếp lớp') . "</td>";
                 
                
-                echo "<td>
-                        <a href='phieulienlac.php?MaHS=" . $row['MaHS'] . "' target='_blank' style='color:green; font-weight:bold;'>🖨️ In Phiếu</a> | 
-                        <a href='#'>Sửa</a> | 
-                        <a href='#' style='color:red;'>Xóa</a>
-                      </td>";
-                
-                echo "</tr>";
+echo "<td>
+                    <a href='phieulienlac.php?MaHS=" . $row['MaHS'] . "' target='_blank' style='color:green; font-weight:bold;'>🖨️ In Phiếu</a> | 
+                    <a href='#'>Sửa</a> | 
+                    <a href='xoa_hocsinh.php?id=" . $row['MaHS'] . "' style='color:red;' onclick='return confirm(\"Bạn có chắc chắn muốn xóa học sinh này?\");'>Xóa</a>
+                  </td>";                echo "</tr>";
             }
         } else {
             echo "<tr><td colspan='7' style='text-align:center;'>Chưa có dữ liệu học sinh.</td></tr>";

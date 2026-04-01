@@ -8,7 +8,7 @@ if (!isset($_GET['MaHS'])) {
     echo "<div style='text-align:center;'><a href='hocsinh.php'>Quay lại danh sách</a></div>";
     exit();
 }
-
+$mahs = mysqli_real_escape_string($conn, $_GET['MaHS']);
 $mahs = $_GET['MaHS'];
 
 //  LẤY THÔNG TIN HỌC SINH VÀ LỚP 

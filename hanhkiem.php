@@ -17,13 +17,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nhanxet = $_POST['NhanXet'];
 
     // Tự động tạo Mã Hạnh Kiểm mới 
-    $result_max = $conn->query("SELECT MAX(MaHK) AS MaxMaHK FROM hanhkiem");
-    $row_max = $result_max->fetch_assoc();
-    $mahk = ($row_max['MaxMaHK'] != null) ? $row_max['MaxMaHK'] + 1 : 1;
-
-    $sql_insert = "INSERT INTO hanhkiem (MaHK, MaHS, HocKy, XepLoai, NhanXet) 
-                   VALUES ($mahk, $mahs, $hocky, '$xeploai', '$nhanxet')";
-    
+// Bỏ MaHK khỏi câu INSERT vì CSDL đã tự động tăng
+    $sql_insert = "INSERT INTO hanhkiem (MaHS, HocKy, XepLoai, NhanXet) 
+                   VALUES ($mahs, $hocky, '$xeploai', '$nhanxet')";    
     if ($conn->query($sql_insert) === TRUE) {
         $thongbao = "<span style='color:green;'>Lưu đánh giá hạnh kiểm thành công!</span>";
     } else {

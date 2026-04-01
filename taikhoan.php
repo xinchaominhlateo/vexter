@@ -12,10 +12,10 @@ $user_hientai = $_SESSION['TenDangNhap'];
 
 // Xử lý đổi mật khẩu
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['MatKhauMoi'])) {
-    $matkhaumoi = $_POST['MatKhauMoi'];
+// Băm mật khẩu ra chuỗi ký tự loằng ngoằng
+    $matkhaumoi = password_hash($_POST['MatKhauMoi'], PASSWORD_DEFAULT);
     
-    $sql_update = "UPDATE taikhoan SET MatKhau = '$matkhaumoi' WHERE TenDangNhap = '$user_hientai'";
-    if ($conn->query($sql_update) === TRUE) {
+    $sql_update = "UPDATE taikhoan SET MatKhau = '$matkhaumoi' WHERE TenDangNhap = '$user_hientai'";    if ($conn->query($sql_update) === TRUE) {
         $thongbao = "<span style='color:green;'>Đổi mật khẩu thành công!</span>";
     } else {
         $thongbao = "<span style='color:red;'>Lỗi: " . $conn->error . "</span>";

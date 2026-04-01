@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 07, 2026 lúc 04:53 AM
+-- Thời gian đã tạo: Th4 01, 2026 lúc 05:44 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -33,18 +33,19 @@ CREATE TABLE `diem` (
   `MaMon` int(11) DEFAULT NULL,
   `HocKy` int(11) DEFAULT NULL,
   `DiemMieng` float DEFAULT NULL,
-  `Diem15Phut` float DEFAULT NULL,
-  `Diem1Tiet` float DEFAULT NULL,
-  `DiemThi` float DEFAULT NULL,
-  `DiemTB` float DEFAULT NULL
+  `DiemKTTX` float DEFAULT NULL,
+  `DiemGiuaKy` float DEFAULT NULL,
+  `DiemCuoiKy` float DEFAULT NULL,
+  `DiemTB` float DEFAULT NULL,
+  `KetQuaNhanXet` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `diem`
 --
 
-INSERT INTO `diem` (`MaDiem`, `MaHS`, `MaMon`, `HocKy`, `DiemMieng`, `Diem15Phut`, `Diem1Tiet`, `DiemThi`, `DiemTB`) VALUES
-(1, 4901009, 1, 1, NULL, 10, 10, 10, 10);
+INSERT INTO `diem` (`MaDiem`, `MaHS`, `MaMon`, `HocKy`, `DiemMieng`, `DiemKTTX`, `DiemGiuaKy`, `DiemCuoiKy`, `DiemTB`, `KetQuaNhanXet`) VALUES
+(1, 4901009, 1, 1, NULL, 10, 10, 10, 10, NULL);
 
 -- --------------------------------------------------------
 
@@ -63,6 +64,13 @@ CREATE TABLE `giaovien` (
   `MaMon` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `giaovien`
+--
+
+INSERT INTO `giaovien` (`MaGV`, `MaTK`, `HoTen`, `NgaySinh`, `GioiTinh`, `DienThoai`, `Email`, `MaMon`) VALUES
+(4900011, NULL, 'Nguyễn Văn B', NULL, NULL, '11111111', NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -80,6 +88,27 @@ CREATE TABLE `hanhkiem` (
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `hocphi`
+--
+
+CREATE TABLE `hocphi` (
+  `MaHP` int(11) NOT NULL,
+  `MaHS` int(11) NOT NULL,
+  `HocKy` int(11) NOT NULL,
+  `SoTien` int(11) NOT NULL DEFAULT 0,
+  `TrangThai` varchar(50) DEFAULT 'Chưa đóng'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `hocphi`
+--
+
+INSERT INTO `hocphi` (`MaHP`, `MaHS`, `HocKy`, `SoTien`, `TrangThai`) VALUES
+(1, 4901009, 1, 20000, 'Đã đóng');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `hocsinh`
 --
 
@@ -90,17 +119,16 @@ CREATE TABLE `hocsinh` (
   `GioiTinh` varchar(10) DEFAULT NULL,
   `DiaChi` varchar(200) DEFAULT NULL,
   `DienThoai` varchar(15) DEFAULT NULL,
-  `Email` varchar(100) DEFAULT NULL,
-  `MaLop` int(11) DEFAULT NULL
+  `Email` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `hocsinh`
 --
 
-INSERT INTO `hocsinh` (`MaHS`, `HoTen`, `NgaySinh`, `GioiTinh`, `DiaChi`, `DienThoai`, `Email`, `MaLop`) VALUES
-(4901009, 'Nguyễn Văn AB', '1999-03-02', 'Nam', 'abcdw', '1234', 'nguyenteo8tuoi@gmail.com', NULL),
-(2147483647, 'Nguyễn Văn CNPM', '2090-02-12', 'Nam', '111', '1111', '', NULL);
+INSERT INTO `hocsinh` (`MaHS`, `HoTen`, `NgaySinh`, `GioiTinh`, `DiaChi`, `DienThoai`, `Email`) VALUES
+(4901009, 'Nguyễn Văn AB', '1999-03-02', 'Nam', 'abcdw', '1234', 'nguyenteo8tuoi@gmail.com'),
+(2147483647, 'Nguyễn Văn CNPM', '2090-02-12', 'Nam', '111', '1111', '');
 
 -- --------------------------------------------------------
 
@@ -128,19 +156,46 @@ CREATE TABLE `monhoc` (
   `MaDiem` int(11) DEFAULT NULL,
   `MaGV` int(11) DEFAULT NULL,
   `TenMon` varchar(100) DEFAULT NULL,
-  `SoTiet` int(11) DEFAULT NULL
+  `SoTiet` int(11) DEFAULT NULL,
+  `Khoi` int(11) DEFAULT NULL,
+  `HinhThucDanhGia` varchar(50) DEFAULT 'Tính điểm'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `monhoc`
 --
 
-INSERT INTO `monhoc` (`MaMon`, `MaDiem`, `MaGV`, `TenMon`, `SoTiet`) VALUES
-(1, NULL, NULL, 'Toán', NULL),
-(2, NULL, NULL, 'Văn', NULL),
-(3, NULL, NULL, 'Tin học', NULL),
-(4, NULL, NULL, 'Hóa Học', NULL),
-(5, NULL, NULL, 'Vật lý', NULL);
+INSERT INTO `monhoc` (`MaMon`, `MaDiem`, `MaGV`, `TenMon`, `SoTiet`, `Khoi`, `HinhThucDanhGia`) VALUES
+(1, NULL, NULL, 'Toán', NULL, NULL, 'Tính điểm'),
+(2, NULL, NULL, 'Văn', NULL, NULL, 'Tính điểm'),
+(3, NULL, NULL, 'Tin học', NULL, NULL, 'Tính điểm'),
+(4, NULL, NULL, 'Hóa Học', NULL, NULL, 'Tính điểm'),
+(5, NULL, NULL, 'Vật lý', NULL, NULL, 'Tính điểm');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `phanlop`
+--
+
+CREATE TABLE `phanlop` (
+  `MaHS` int(11) NOT NULL,
+  `MaLop` int(11) NOT NULL,
+  `HocKy` int(11) NOT NULL,
+  `NamHoc` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `quatrinhhoc`
+--
+
+CREATE TABLE `quatrinhhoc` (
+  `MaHS` int(11) NOT NULL,
+  `MaLop` int(11) NOT NULL,
+  `NamHoc` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -160,7 +215,7 @@ CREATE TABLE `taikhoan` (
 --
 
 INSERT INTO `taikhoan` (`MaTK`, `TenDangNhap`, `MatKhau`, `VaiTro`) VALUES
-(1, 'admin', '123456', 'Admin');
+(1, 'admin', '$2y$10$O0O/H6qj2qZ9YqfXzV/u/O8T.Mh.x7X09/G3t3.d3.E', 'Admin');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -189,11 +244,17 @@ ALTER TABLE `hanhkiem`
   ADD KEY `FK_HK_HS` (`MaHS`);
 
 --
+-- Chỉ mục cho bảng `hocphi`
+--
+ALTER TABLE `hocphi`
+  ADD PRIMARY KEY (`MaHP`),
+  ADD KEY `MaHS` (`MaHS`);
+
+--
 -- Chỉ mục cho bảng `hocsinh`
 --
 ALTER TABLE `hocsinh`
-  ADD PRIMARY KEY (`MaHS`),
-  ADD KEY `FK_HS_LOP` (`MaLop`);
+  ADD PRIMARY KEY (`MaHS`);
 
 --
 -- Chỉ mục cho bảng `lop`
@@ -210,10 +271,46 @@ ALTER TABLE `monhoc`
   ADD KEY `FK_MON_GV` (`MaGV`);
 
 --
+-- Chỉ mục cho bảng `phanlop`
+--
+ALTER TABLE `phanlop`
+  ADD PRIMARY KEY (`MaHS`,`MaLop`,`HocKy`,`NamHoc`),
+  ADD KEY `MaLop` (`MaLop`);
+
+--
+-- Chỉ mục cho bảng `quatrinhhoc`
+--
+ALTER TABLE `quatrinhhoc`
+  ADD PRIMARY KEY (`MaHS`,`MaLop`,`NamHoc`),
+  ADD KEY `FK_QTH_LOP` (`MaLop`);
+
+--
 -- Chỉ mục cho bảng `taikhoan`
 --
 ALTER TABLE `taikhoan`
   ADD PRIMARY KEY (`MaTK`);
+
+--
+-- AUTO_INCREMENT cho các bảng đã đổ
+--
+
+--
+-- AUTO_INCREMENT cho bảng `diem`
+--
+ALTER TABLE `diem`
+  MODIFY `MaDiem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT cho bảng `hanhkiem`
+--
+ALTER TABLE `hanhkiem`
+  MODIFY `MaHK` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `hocphi`
+--
+ALTER TABLE `hocphi`
+  MODIFY `MaHP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -239,10 +336,10 @@ ALTER TABLE `hanhkiem`
   ADD CONSTRAINT `FK_HK_HS` FOREIGN KEY (`MaHS`) REFERENCES `hocsinh` (`MaHS`);
 
 --
--- Các ràng buộc cho bảng `hocsinh`
+-- Các ràng buộc cho bảng `hocphi`
 --
-ALTER TABLE `hocsinh`
-  ADD CONSTRAINT `FK_HS_LOP` FOREIGN KEY (`MaLop`) REFERENCES `lop` (`MaLop`);
+ALTER TABLE `hocphi`
+  ADD CONSTRAINT `hocphi_ibfk_1` FOREIGN KEY (`MaHS`) REFERENCES `hocsinh` (`MaHS`) ON DELETE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `lop`
@@ -255,6 +352,20 @@ ALTER TABLE `lop`
 --
 ALTER TABLE `monhoc`
   ADD CONSTRAINT `FK_MON_GV` FOREIGN KEY (`MaGV`) REFERENCES `giaovien` (`MaGV`);
+
+--
+-- Các ràng buộc cho bảng `phanlop`
+--
+ALTER TABLE `phanlop`
+  ADD CONSTRAINT `phanlop_ibfk_1` FOREIGN KEY (`MaHS`) REFERENCES `hocsinh` (`MaHS`),
+  ADD CONSTRAINT `phanlop_ibfk_2` FOREIGN KEY (`MaLop`) REFERENCES `lop` (`MaLop`);
+
+--
+-- Các ràng buộc cho bảng `quatrinhhoc`
+--
+ALTER TABLE `quatrinhhoc`
+  ADD CONSTRAINT `FK_QTH_HS` FOREIGN KEY (`MaHS`) REFERENCES `hocsinh` (`MaHS`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_QTH_LOP` FOREIGN KEY (`MaLop`) REFERENCES `lop` (`MaLop`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
