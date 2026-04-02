@@ -21,11 +21,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $malop = empty($_POST['MaLop']) ? "NULL" : $_POST['MaLop']; // Nếu không chọn lớp thì để NULL
 
     // Lệnh thêm vào CSDL bảng hocsinh 
-    $sql_insert_hs = "INSERT INTO hocsinh (MaHS, HoTen, NgaySinh, GioiTinh, DiaChi, DienThoai, Email) 
-                   VALUES ('$mahs', '$hoten', '$ngaysinh', '$gioitinh', '$diachi', '$dienthoai', '$email')";
+// Chuẩn bị câu lệnh SQL với các dấu ?
+    $stmt = $conn->prepare("INSERT INTO hocsinh (MaHS, HoTen, NgaySinh, GioiTinh, DiaChi, DienThoai, Email) VALUES (?, ?, ?, ?, ?, ?, ?)");
     
-    if ($conn->query($sql_insert_hs) === TRUE) {
-        // Nếu chọn lớp, thêm tiếp vào bảng quatrinhhoc
+    // Gắn biến vào các dấu ? ("issssss" nghĩa là: Integer, String, String, String, String, String, String)
+    $stmt->bind_param("issssss", $mahs, $hoten, $ngaysinh, $gioitinh, $diachi, $dienthoai, $email);
+    
+    // Thực thi
+    if ($stmt->execute()) {
+        $stmt->close();        // Nếu chọn lớp, thêm tiếp vào bảng quatrinhhoc
         if ($malop != "NULL") {
             // Tạm định sẵn HocKy 1 và Năm Học hiện tại, em có thể làm form nhập thêm sau
             $sql_insert_qt = "INSERT INTO quatrinhhoc (MaHS, MaLop, HocKy, NamHoc) VALUES ('$mahs', $malop, 1, '2025-2026')";

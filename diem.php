@@ -28,8 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Khắc phục lỗi thiếu Auto_Increment của MaDiem trong CSDL
 $ketquanhanxet = empty($_POST['KetQuaNhanXet']) ? "NULL" : "'" . $_POST['KetQuaNhanXet'] . "'";    $row_max = $result_max->fetch_assoc();
-    $madiem = ($row_max['MaxMaDiem'] != null) ? $row_max['MaxMaDiem'] + 1 : 1;
-
     // Lệnh Insert vào bảng diem
    $ketquanhanxet = empty($_POST['KetQuaNhanXet']) ? "NULL" : "'" . $_POST['KetQuaNhanXet'] . "'";
 

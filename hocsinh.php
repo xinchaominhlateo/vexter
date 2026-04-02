@@ -13,19 +13,19 @@ $search = "";
 if (isset($_GET['search'])) {
     $search = $_GET['search'];
 
-    $sql = "SELECT hocsinh.*, lop.TenLop 
+$sql = "SELECT hocsinh.*, lop.TenLop 
             FROM hocsinh 
-            LEFT JOIN quatrinhhoc ON hocsinh.MaHS = quatrinhhoc.MaHS 
+            LEFT JOIN quatrinhhoc ON hocsinh.MaHS = quatrinhhoc.MaHS AND quatrinhhoc.NamHoc = '2025-2026'
             LEFT JOIN lop ON quatrinhhoc.MaLop = lop.MaLop 
             WHERE hocsinh.HoTen LIKE '%$search%' OR hocsinh.MaHS LIKE '%$search%'
-            GROUP BY hocsinh.MaHS"; 
-} else {
-    $sql = "SELECT hocsinh.*, lop.TenLop 
+            GROUP BY hocsinh.MaHS";}
+             else {
+$sql = "SELECT hocsinh.*, lop.TenLop 
             FROM hocsinh 
-            LEFT JOIN quatrinhhoc ON hocsinh.MaHS = quatrinhhoc.MaHS 
+            LEFT JOIN quatrinhhoc ON hocsinh.MaHS = quatrinhhoc.MaHS AND quatrinhhoc.NamHoc = '2025-2026'
             LEFT JOIN lop ON quatrinhhoc.MaLop = lop.MaLop
             GROUP BY hocsinh.MaHS";
-}
+            }
 
 // THỰC THI CÂU LỆNH SQL 
 $result = $conn->query($sql);
@@ -51,8 +51,7 @@ $result = $conn->query($sql);
     
     <div class="search-box">
         <form method="GET" action="">
-            <input type="text" name="search" placeholder="Nhập tên hoặc mã HS..." value="<?php echo $search; ?>" style="padding: 8px; width: 250px;">
-            <button type="submit" class="btn" style="background: #008CBA;">Tìm kiếm</button>
+<input type="text" name="search" placeholder="Nhập tên hoặc mã HS..." value="<?php echo htmlspecialchars($search); ?>" style="padding: 8px; width: 250px;">            <button type="submit" class="btn" style="background: #008CBA;">Tìm kiếm</button>
             <a href="them_hocsinh.php" class="btn" style="float: right;">+ Thêm học sinh</a>
         </form>
     </div>
@@ -82,8 +81,7 @@ $result = $conn->query($sql);
 echo "<td>
                     <a href='phieulienlac.php?MaHS=" . $row['MaHS'] . "' target='_blank' style='color:green; font-weight:bold;'>🖨️ In Phiếu</a> | 
                     <a href='#'>Sửa</a> | 
-                    <a href='xoa_hocsinh.php?id=" . $row['MaHS'] . "' style='color:red;' onclick='return confirm(\"Bạn có chắc chắn muốn xóa học sinh này?\");'>Xóa</a>
-                  </td>";                echo "</tr>";
+<a href='xoahocsinh.php?id=" . $row['MaHS'] . "' style='color:red;' onclick='return confirm(\"Bạn có chắc chắn muốn xóa học sinh này?\");'>Xóa</a>                  </td>";                echo "</tr>";
             }
         } else {
             echo "<tr><td colspan='7' style='text-align:center;'>Chưa có dữ liệu học sinh.</td></tr>";

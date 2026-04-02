@@ -9,8 +9,6 @@ if (!isset($_GET['MaHS'])) {
     exit();
 }
 $mahs = mysqli_real_escape_string($conn, $_GET['MaHS']);
-$mahs = $_GET['MaHS'];
-
 //  LẤY THÔNG TIN HỌC SINH VÀ LỚP 
 $sql_hs = "SELECT hs.*, 
             (SELECT l.TenLop FROM quatrinhhoc qt JOIN lop l ON qt.MaLop = l.MaLop WHERE qt.MaHS = hs.MaHS LIMIT 1) AS TenLop
